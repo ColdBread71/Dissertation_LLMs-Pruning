@@ -1,8 +1,6 @@
 import argparse
 import os
-os.environ['TRANSFORMERS_CACHE'] = '/root/autodl-tmp/llm_weights'
-os.environ['HF_HOME'] = '/root/autodl-tmp/huggingface'
-ENDPOINT = " https://hf-mirror.com"
+os.environ['TRANSFORMERS_CACHE'] = 'llm_weights'
 import numpy as np
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -16,7 +14,7 @@ print('transformers', version('transformers'))
 print('accelerate', version('accelerate'))
 print('# of gpus: ', torch.cuda.device_count())
 
-def get_llm(model_name, cache_dir="/root/autodl-tmp/llm_weights"):
+def get_llm(model_name, cache_dir="llm_weights"):
     model = AutoModelForCausalLM.from_pretrained(
         model_name, 
         torch_dtype=torch.float16, 
@@ -38,7 +36,7 @@ def main():
     parser.add_argument("--prune_method", type=str, choices=["magnitude", "wanda", "sparsegpt", 
                         "ablate_mag_seq", "ablate_wanda_seq", "ablate_mag_iter", "ablate_wanda_iter", "search"])
     parser.add_argument("--module_names", nargs='+', help='List of module names to prune.')
-    parser.add_argument("--cache_dir", default="/root/autodl-tmp/llm_weights", type=str )
+    parser.add_argument("--cache_dir", default="llm_weights", type=str )
     parser.add_argument('--use_variant', action="store_true", help="whether to use the wanda variant described in the appendix")
     parser.add_argument('--save', type=str, default=None, help='Path to save results.')
     parser.add_argument('--save_model', type=str, default=None, help='Path to save the pruned model.')
