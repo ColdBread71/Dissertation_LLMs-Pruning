@@ -22,7 +22,9 @@ def get_llm(model_name, cache_dir="llm_weights"):
         low_cpu_mem_usage=True, 
         device_map="auto"
     )
-
+    print('Model config:')
+    print(model.config)
+    
     model.seqlen = model.config.max_position_embeddings 
     return model
 
